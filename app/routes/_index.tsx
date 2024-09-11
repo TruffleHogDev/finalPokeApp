@@ -4,7 +4,9 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
+import React, { useEffect, useState } from "react";
 import Search from "./search";
+import pokeBall from "../images/pokeBall.png";
 
 // Data fetching area
 
@@ -51,11 +53,16 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
     let result2Json = await result2.json();
 
-    console.log(result2Json.base_experience);
+    console.log(result2Json.sprites.front_default);
 
     // API call 1 contains Pokémon base info
     // API call 2 is a secondary call to get more info about the Pokémon
-    pokemon = [{ name: `${result2Json.name}` }];
+    pokemon = [
+      {
+        name: `${result2Json.name}`,
+        sprite: result2Json.sprites.front_default,
+      },
+    ];
   } catch (error) {
     console.error("Error fetching Pokémon data:", error);
     // If any error occurs, set pokemon to an empty array
@@ -72,6 +79,16 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 export default function PokemonInfoPage() {
   const { pokemon } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
+
+  // State to hold the sprite URL
+  const [spriteUrl, setSpriteUrl] = useState<string>("");
+
+  useEffect(() => {
+    // Update the sprite URL whenever pokemon data changes
+    if (pokemon.length > 0) {
+      setSpriteUrl(pokemon[0].sprite);
+    }
+  }, [pokemon]);
 
   return (
     <div className="bg-red-500">
@@ -97,6 +114,13 @@ export default function PokemonInfoPage() {
           }}
         />
       </Form>
+      <figure>
+        <img
+          className="w-5/6 sm:w-3/4 md:w-4/6"
+          src={spriteUrl || pokeBall} // Use pokeBall as a fallback
+          alt="This is where the sprite renders!"
+        />
+      </figure>
     </div>
   );
 }
