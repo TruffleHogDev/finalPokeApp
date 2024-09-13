@@ -116,7 +116,7 @@ export default function PokemonInfoPage() {
       </Form>
       <figure>
         <img
-          className="w-5/6 sm:w-3/4 md:w-4/6"
+          className="w-4/6 sm:w-3/4 m-auto max-w-[400px]"
           src={spriteUrl || pokeBall} // Use pokeBall as a fallback
           alt="This is where the sprite renders!"
         />
