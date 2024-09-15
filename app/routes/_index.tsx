@@ -96,12 +96,13 @@ export default function PokemonInfoPage() {
       <h1 className="text-center text-xl">
         Enter the name of a Pokémon... or suffer the consequences...
       </h1>
-      <Form className="text-pink-600 text-lg grid mx-[30%]" method="get">
+      <Form className="text-lg grid mx-[30%]" method="get">
         <input
           style={{
-            border: "rounded 3px solid green",
+            border: "rounded 3px solid",
             borderRadius: "0.25rem",
             margin: "5px",
+            textIndent: "5px",
           }}
           type="text"
           name="pokemon"
