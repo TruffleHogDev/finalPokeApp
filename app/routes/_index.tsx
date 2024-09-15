@@ -41,11 +41,16 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
     console.log(result1Json.id);
 
-    // Extract Pokémon types, using pokemonTypes as a const to make it slightly less confusing in TS
-    const pokemonTypes = result1Json.types
-      .map((type: any) => type.type.name) //"Any" type in TS first, the second being the specific API data ref.
+    // Extract Pokémon types and stats
+    const types = result1Json.types
+      .map((type: any) => type.type.name) //"Any" type in TS first, then parsing the type from the JSON.
       .join(", ");
+    const stats = result1Json.stats.map((stat: any) => ({
+      name: stat.stat.name,
+      value: stat.base_stat,
+    }));
 
+    // API call to get Pokémon data
     let result2 = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${result1Json.name}`
     );
@@ -66,7 +71,8 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
       {
         name: `${result2Json.name}`,
         sprite: result2Json.sprites.front_default,
-        types: pokemonTypes,
+        types: types,
+        stats: stats,
       },
     ];
   } catch (error) {
@@ -86,15 +92,17 @@ export default function PokemonInfoPage() {
   const { pokemon } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
 
-  // State to hold the sprite URL
+  // State to hold the sprite URL, types, and stats
   const [spriteUrl, setSpriteUrl] = useState<string>("");
   const [types, setTypes] = useState<string>("");
+  const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
-    // Update the sprite URL and types whenever pokemon data changes
+    // Update the sprite URL, types, and stats whenever pokemon data changes
     if (pokemon.length > 0) {
       setSpriteUrl(pokemon[0].sprite);
       setTypes(pokemon[0].types);
+      setStats(pokemon[0].stats);
     }
   }, [pokemon]);
 
@@ -128,6 +136,20 @@ export default function PokemonInfoPage() {
           {types ? `Types: ${types}` : "Type information not available"}
         </figcaption>
       </figure>
+      <div className="mt-4 text-center">
+        <h2 className="text-lg font-bold">Stats</h2>
+        <ul className="list-disc list-inside">
+          {stats.length > 0 ? (
+            stats.map((stat) => (
+              <li key={stat.name}>
+                {stat.name}: {stat.value}
+              </li>
+            ))
+          ) : (
+            <li>No stats available</li>
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
