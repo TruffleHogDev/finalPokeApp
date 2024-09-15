@@ -98,12 +98,7 @@ export default function PokemonInfoPage() {
       </h1>
       <Form className="text-lg grid mx-[30%]" method="get">
         <input
-          style={{
-            border: "rounded 3px solid",
-            borderRadius: "0.25rem",
-            margin: "5px",
-            textIndent: "5px",
-          }}
+          className="rounded border-3 border-solid m-1 indent-1"
           type="text"
           name="pokemon"
           id="searchField"
