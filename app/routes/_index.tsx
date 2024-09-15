@@ -95,6 +95,7 @@ export default function PokemonInfoPage() {
   // State to hold the sprite URL, types, and stats
   const [spriteUrl, setSpriteUrl] = useState<string>("");
   const [types, setTypes] = useState<string>("");
+  //The below represents the name of the stat, then the value of the stat- empty arrays by default.
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
