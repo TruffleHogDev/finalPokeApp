@@ -41,6 +41,11 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
     console.log(result1Json.id);
 
+    // Extract Pokémon types, using pokemonTypes as a const to make it slightly less confusing in TS
+    const pokemonTypes = result1Json.types
+      .map((type: any) => type.type.name) //"Any" type in TS first, the second being the specific API data ref.
+      .join(", ");
+
     let result2 = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${result1Json.name}`
     );
@@ -61,6 +66,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
       {
         name: `${result2Json.name}`,
         sprite: result2Json.sprites.front_default,
+        types: pokemonTypes,
       },
     ];
   } catch (error) {
@@ -82,11 +88,13 @@ export default function PokemonInfoPage() {
 
   // State to hold the sprite URL
   const [spriteUrl, setSpriteUrl] = useState<string>("");
+  const [types, setTypes] = useState<string>("");
 
   useEffect(() => {
-    // Update the sprite URL whenever pokemon data changes
+    // Update the sprite URL and types whenever pokemon data changes
     if (pokemon.length > 0) {
       setSpriteUrl(pokemon[0].sprite);
+      setTypes(pokemon[0].types);
     }
   }, [pokemon]);
 
@@ -116,6 +124,9 @@ export default function PokemonInfoPage() {
           src={spriteUrl || pokeBall} // Use pokeBall as a fallback
           alt="This is where the sprite renders!"
         />
+        <figcaption className="text-center text-lg mt-2">
+          {types ? `Types: ${types}` : "Type information not available"}
+        </figcaption>
       </figure>
     </div>
   );
