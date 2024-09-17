@@ -5,8 +5,8 @@ import {
   useNavigate,
 } from "@remix-run/react";
 import React, { useEffect, useState } from "react";
-import Search from "./search";
 import pokeBall from "../images/pokeBall.png";
+import "app/index.css";
 
 // Data fetching area
 
@@ -91,15 +91,11 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 export default function PokemonInfoPage() {
   const { pokemon } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
-
-  // State to hold the sprite URL, types, and stats
   const [spriteUrl, setSpriteUrl] = useState<string>("");
   const [types, setTypes] = useState<string>("");
-  //The below represents the name of the stat, then the value of the stat- empty arrays by default.
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
-    // Update the sprite URL, types, and stats whenever pokemon data changes
     if (pokemon.length > 0) {
       setSpriteUrl(pokemon[0].sprite);
       setTypes(pokemon[0].types);
@@ -107,10 +103,29 @@ export default function PokemonInfoPage() {
     }
   }, [pokemon]);
 
+  // Function to determine bar color
+  const getBarColor = (statName: string) => {
+    switch (statName) {
+      case "hp":
+        return "bg-green-500";
+      case "attack":
+        return "bg-red-500";
+      case "defense":
+        return "bg-blue-500";
+      case "speed":
+        return "bg-yellow-500";
+      case "special-attack":
+        return "bg-purple-500";
+      case "special-defense":
+        return "bg-teal-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
+
   return (
-    <div className="bg-red-500">
-      <Search />
-      <h1 className="text-center text-xl">
+    <div className="bg-slate-300 p-4">
+      <h1 className="text-center text-xl mb-4">
         Enter the name of a Pokémon... or suffer the consequences...
       </h1>
       <Form className="text-lg grid mx-[30%]" method="get">
@@ -127,10 +142,10 @@ export default function PokemonInfoPage() {
           }}
         />
       </Form>
-      <figure>
+      <figure className="text-center mb-4">
         <img
           className="w-4/6 sm:w-3/4 m-auto max-w-[400px]"
-          src={spriteUrl || pokeBall} // Use pokeBall as a fallback
+          src={spriteUrl || pokeBall}
           alt="This is where the sprite renders!"
         />
         <figcaption className="text-center text-lg mt-2">
@@ -139,17 +154,23 @@ export default function PokemonInfoPage() {
       </figure>
       <div className="mt-4 text-center">
         <h2 className="text-lg font-bold">Stats</h2>
-        <ul className="list-disc list-inside">
+        <div className="stat-bar-container">
           {stats.length > 0 ? (
             stats.map((stat) => (
-              <li key={stat.name}>
-                {stat.name}: {stat.value}
-              </li>
+              <div key={stat.name} className="stat-bar">
+                <span className="stat-bar-label">{stat.name}</span>
+                <div
+                  className={`stat-bar-value ${getBarColor(stat.name)}`}
+                  style={{ width: `${stat.value}%` }}
+                >
+                  {stat.value}
+                </div>
+              </div>
             ))
           ) : (
-            <li>No stats available</li>
+            <p>No stats available</p>
           )}
-        </ul>
+        </div>
       </div>
     </div>
   );
