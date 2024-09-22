@@ -4,86 +4,105 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import pokeBall from "../images/pokeBall.png";
 import "app/index.css";
 
-// Data fetching area
+// Pokémon name mapping
+const pokemonNameMap = {
+  "Mr. Mime": "mr-mime",
+  "mr. mime": "mr-mime",
+  "mr mime": "mr-mime",
+  "Mr. Rime": "mr-rime",
+  "Scream Tail": "scream-tail",
+  "Flutter Mane": "flutter-mane",
+  "Iron Moth": "iron-moth",
+  "Iron Jugulis": "iron-jugulis",
+  "Iron Bundle": "iron-bundle",
+  "Great Tusk": "great-tusk",
+  "Brute Bonnet": "brute-bonnet",
+  "Slither Wing": "slither-wing",
+  "Sandy Shocks": "sandy-shocks",
+  "Roaring Moon": "roaring-moon",
+  "Walking Wake": "walking-wake",
+  "Gouging Fire": "gouging-fire",
+  "Raging Bolt": "raging-bolt",
+  "Iron Treads": "iron-treads",
+  "Iron Hands": "iron-hands",
+  "Iron Thorns": "iron-thorns",
+  "Iron Valiant": "iron-valiant",
+  "Iron Leaves": "iron-leaves",
+  "Iron Boulder": "iron-boulder",
+  "Iron Crown": "iron-crown",
+  "type null": "type-null",
+  "Type: Null": "type-null",
+  "Type:Null": "type-null",
+  "type:null": "type-null",
+  "type: null": "type-null",
+};
 
+// Data fetching area
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   let pokemonQuery = "";
   let pokemon = [];
 
   try {
-    // Fetch data from API
     let url = new URL(request.url);
     let searchParams = url.searchParams;
-    pokemonQuery = searchParams.get("pokemon") ?? "";
+    pokemonQuery = searchParams.get("pokemon")?.trim() ?? "";
 
     if (!pokemonQuery) {
-      // Return an empty array if no query is provided
       return { pokemon: [] };
     }
 
-    console.log(pokemonQuery);
+    const normalizeName = (name) => {
+      return name.trim().toLowerCase().replace(/\s+/g, "-");
+    };
+
+    const normalizedInput = normalizeName(pokemonQuery);
+    const apiFriendlyName =
+      pokemonNameMap[pokemonQuery] ||
+      pokemonNameMap[normalizedInput] ||
+      normalizedInput;
+
+    console.log("Mapped API name:", apiFriendlyName);
 
     let result1 = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonQuery.toLowerCase()}`
+      `https://pokeapi.co/api/v2/pokemon/${apiFriendlyName}`
     );
 
     if (!result1.ok) {
-      // If the response is not OK (e.g., 404), handle the error
-      console.error("Pokemon not found");
+      console.error("Pokemon not found:", result1.statusText);
       return { pokemon: [] };
     }
 
     let result1Json = await result1.json();
+    console.log("Fetched Pokémon data:", result1Json);
 
-    console.log(result1Json.id);
-
-    // Extract Pokémon types and stats
     const types = result1Json.types
-      .map((type: any) => type.type.name) //"Any" type in TS first, then parsing the type from the JSON.
+      .map((type: any) => type.type.name)
       .join(", ");
     const stats = result1Json.stats.map((stat: any) => ({
       name: stat.stat.name,
       value: stat.base_stat,
     }));
 
-    // API call to get Pokémon data
-    let result2 = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${result1Json.name}`
-    );
-
-    if (!result2.ok) {
-      // If the response is not OK (e.g., 404), handle the error
-      console.error("Additional Pokémon data not found");
-      return { pokemon: [] };
-    }
-
-    let result2Json = await result2.json();
-
-    console.log(result2Json.sprites.front_default);
-
-    // API call 1 contains Pokémon base info
-    // API call 2 is a secondary call to get more info about the Pokémon
     pokemon = [
       {
-        name: `${result2Json.name}`,
-        sprite: result2Json.sprites.front_default,
+        name: result1Json.name,
+        sprite: result1Json.sprites.front_default,
         types: types,
         stats: stats,
       },
     ];
   } catch (error) {
     console.error("Error fetching Pokémon data:", error);
-    // If any error occurs, set pokemon to an empty array
     pokemon = [];
   }
 
   return {
     pokemon: pokemon.filter((p) =>
-      p.name.toLowerCase().startsWith(pokemonQuery.toLowerCase())
+      p.name.toLowerCase().includes(pokemonQuery.toLowerCase())
     ),
   };
 }
@@ -91,7 +110,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 export default function PokemonInfoPage() {
   const { pokemon } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
-  const [spriteUrl, setSpriteUrl] = useState<string>("");
+  const [spriteUrl, setSpriteUrl] = useState<string>(pokeBall);
   const [types, setTypes] = useState<string>("");
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
 
@@ -100,10 +119,35 @@ export default function PokemonInfoPage() {
       setSpriteUrl(pokemon[0].sprite);
       setTypes(pokemon[0].types);
       setStats(pokemon[0].stats);
+    } else {
+      setSpriteUrl(pokeBall);
+      setTypes("");
+      setStats([]);
     }
   }, [pokemon]);
 
-  // Function to determine bar color
+  const normalizeName = (name) => {
+    return name.trim().toLowerCase().replace(/\s+/g, "-");
+  };
+
+  const getApiFriendlyName = (input) => {
+    const normalizedInput = normalizeName(input);
+    return (
+      pokemonNameMap[input] ||
+      pokemonNameMap[normalizedInput] ||
+      normalizedInput
+    );
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      const query = (e.target as HTMLInputElement).value;
+      const apiFriendlyName = getApiFriendlyName(query);
+      navigate(`/?pokemon=${encodeURIComponent(apiFriendlyName)}`);
+      e.preventDefault();
+    }
+  };
+
   const getBarColor = (statName: string) => {
     switch (statName) {
       case "hp":
@@ -134,26 +178,20 @@ export default function PokemonInfoPage() {
           type="text"
           name="pokemon"
           id="searchField"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              navigate(`/?pokemon=${(e.target as HTMLInputElement).value}`);
-              e.preventDefault();
-            }
-          }}
+          onKeyDown={handleKeyDown}
         />
       </Form>
       <figure className="text-center mb-4">
         <img
           className="w-4/6 sm:w-3/4 m-auto max-w-[400px]"
-          src={spriteUrl || pokeBall}
+          src={spriteUrl}
           alt="This is where the sprite renders!"
         />
         <figcaption className="text-center text-lg mt-2">
-          {types ? `Types: ${types}` : "Type information not available"}
+          {types ? `Types: ${types}` : ""}
         </figcaption>
       </figure>
       <div className="mt-4 text-center">
-        <h2 className="text-lg font-bold">Stats</h2>
         <div className="stat-bar-container">
           {stats.length > 0 ? (
             stats.map((stat) => (
