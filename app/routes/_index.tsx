@@ -15,6 +15,7 @@ const pokemonNameMap = {
   "mr mime": "mr-mime",
   "Mr. Rime": "mr-rime",
   "mr rime": "mr-rime",
+  "mr. rime": "mr-rime",
   "Scream Tail": "scream-tail",
   "Flutter Mane": "flutter-mane",
   "Iron Moth": "iron-moth",
