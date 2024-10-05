@@ -41,6 +41,10 @@ const pokemonNameMap = {
   "Type:Null": "type-null",
   "type:null": "type-null",
   "type: null": "type-null",
+  "Porygon Z": "porygon-z",
+  "porygon z": "porygon-z",
+  "Porygon 2": "porygon2",
+  "porygon 2": "porygon2",
 };
 
 // Data fetching area

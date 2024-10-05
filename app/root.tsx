@@ -9,7 +9,7 @@ import "./tailwind.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bg-orange-500">
+    <html lang="en" className="bg-gray-500">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
