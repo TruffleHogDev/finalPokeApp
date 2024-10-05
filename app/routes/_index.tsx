@@ -197,7 +197,7 @@ export default function PokemonInfoPage() {
   };
 
   return (
-    <div className="bg-slate-300 p-4 h-screen">
+    <div className="bg-slate-300 p-4 h-screen flex flex-col items-center justify-center">
       <h1 className="text-center text-xl mb-4">
         Enter the name of a Pokémon... or suffer the consequences...
       </h1>
@@ -212,46 +212,56 @@ export default function PokemonInfoPage() {
           onKeyDown={handleKeyDown} // Handle key down event
         />
       </Form>
-      <figure className="text-center mb-2">
-        <img
-          className="w-4/6 sm:w-3/4 m-auto max-h-[250px] max-w-[250px]"
-          src={spriteUrl}
-          alt="This is where the sprite renders!"
-        />
-        <figcaption className="text-center text-lg mt-2">
-          {types ? `Types: ${types}` : ""}
-        </figcaption>
-      </figure>
-      <div className="mt-4 text-center">
-        <div className="stat-bar-container">
-          {stats.length > 0 ? (
-            stats.map((stat) => (
-              <div key={stat.name} className="stat-bar mb-4">
-                <span className="stat-bar-label block text-left">
-                  {stat.name}
-                </span>
-                <div
-                  className="stat-bar-value-container"
-                  style={{ width: "300px" }}
-                >
-                  {" "}
-                  {/* Fixed width */}
+
+      {pokemon.length > 0 ? (
+        <div className="flex justify-center mt-4">
+          <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-2 border-gray-400">
+            <img
+              className="max-h-full max-w-full object-contain"
+              src={spriteUrl}
+              alt="This is where the sprite renders!"
+            />
+            <h2 className="text-lg mt-2">{pokemon[0].name}</h2>
+            <p className="text-md">
+              {types ? `Types: ${types}` : "No types available"}
+            </p>
+          </div>
+          <div className="w-[400px] h-[400px] flex flex-col items-start justify-center border-2 border-gray-400 ml-4">
+            {stats.length > 0 ? (
+              stats.map((stat) => (
+                <div key={stat.name} className="stat-bar mb-2">
+                  <span className="stat-bar-label block text-left mb-1">
+                    {stat.name}
+                  </span>
                   <div
-                    className={`stat-bar-value ${getBarColor(stat.name)}`}
-                    style={{
-                      width: `${(stat.value / 255) * 100}%`, // Calculate relative width
-                    }}
+                    className="stat-bar-value-container"
+                    style={{ width: "300px" }}
                   >
-                    {stat.value}
+                    <div
+                      className={`stat-bar-value ${getBarColor(stat.name)}`}
+                      style={{
+                        width: `${(stat.value / 255) * 100}%`, // Calculate relative width
+                      }}
+                    >
+                      {stat.value}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No stats available</p>
-          )}
+              ))
+            ) : (
+              <p>No stats available</p>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center">
+          <img
+            className="w-[250px] h-[250px] object-contain"
+            src={spriteUrl}
+            alt="Pokéball"
+          />
+        </div>
+      )}
     </div>
   );
 }
