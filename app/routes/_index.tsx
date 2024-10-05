@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   ClientLoaderFunctionArgs,
   Form,
@@ -140,6 +141,7 @@ export default function PokemonInfoPage() {
   const [spriteUrl, setSpriteUrl] = useState<string>(pokeBall);
   const [types, setTypes] = useState<string>("");
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
+  const [searchValue, setSearchValue] = useState(""); // State for the search field
 
   useEffect(() => {
     if (pokemon.length > 0) {
@@ -168,10 +170,10 @@ export default function PokemonInfoPage() {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      const query = (e.target as HTMLInputElement).value;
-      const apiFriendlyName = getApiFriendlyName(query);
+      e.preventDefault(); // Prevent the default form submission
+      const apiFriendlyName = getApiFriendlyName(searchValue); // Get the API-friendly name
       navigate(`/?pokemon=${encodeURIComponent(apiFriendlyName)}`);
-      e.preventDefault();
+      setSearchValue(""); // Clear the search field
     }
   };
 
@@ -205,12 +207,14 @@ export default function PokemonInfoPage() {
           type="text"
           name="pokemon"
           id="searchField"
-          onKeyDown={handleKeyDown}
+          value={searchValue} // Bind the input value to the state
+          onChange={(e) => setSearchValue(e.target.value)} // Update state on input change
+          onKeyDown={handleKeyDown} // Handle key down event
         />
       </Form>
       <figure className="text-center mb-2">
         <img
-          className="w-4/6 sm:w-3/4 m-auto max-w-[400px]"
+          className="w-4/6 sm:w-3/4 m-auto max-h-[250px] max-w-[250px]"
           src={spriteUrl}
           alt="This is where the sprite renders!"
         />
