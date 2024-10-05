@@ -174,7 +174,7 @@ export default function PokemonInfoPage() {
   };
 
   return (
-    <div className="bg-slate-300 p-4">
+    <div className="bg-slate-300 p-4 h-screen">
       <h1 className="text-center text-xl mb-4">
         Enter the name of a Pokémon... or suffer the consequences...
       </h1>
@@ -187,7 +187,7 @@ export default function PokemonInfoPage() {
           onKeyDown={handleKeyDown}
         />
       </Form>
-      <figure className="text-center mb-4">
+      <figure className="text-center mb-2">
         <img
           className="w-4/6 sm:w-3/4 m-auto max-w-[400px]"
           src={spriteUrl}
@@ -201,13 +201,24 @@ export default function PokemonInfoPage() {
         <div className="stat-bar-container">
           {stats.length > 0 ? (
             stats.map((stat) => (
-              <div key={stat.name} className="stat-bar">
-                <span className="stat-bar-label">{stat.name}</span>
+              <div key={stat.name} className="stat-bar mb-4">
+                <span className="stat-bar-label block text-left">
+                  {stat.name}
+                </span>
                 <div
-                  className={`stat-bar-value ${getBarColor(stat.name)}`}
-                  style={{ width: `${stat.value}%` }}
+                  className="stat-bar-value-container"
+                  style={{ width: "300px" }}
                 >
-                  {stat.value}
+                  {" "}
+                  {/* Fixed width */}
+                  <div
+                    className={`stat-bar-value ${getBarColor(stat.name)}`}
+                    style={{
+                      width: `${(stat.value / 255) * 100}%`, // Calculate relative width
+                    }}
+                  >
+                    {stat.value}
+                  </div>
                 </div>
               </div>
             ))
