@@ -4,10 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "npx remix vite:build && ls -R build",
+    "build": "npx remix build",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "npx remix-serve build/server/index.js",
+    "start": "node build/server/index.js",
     "typecheck": "tsc",
     "build:digitalocean": "npm install --include=dev && rm -rf build && npx remix vite:build && npm ci"
   },
