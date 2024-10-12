@@ -5,10 +5,8 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
-import { useEffect, useState } from "react";
 import pokeBall from "../images/pokeBall.png";
 import "app/index.css";
-
 // Pokémon name mapping
 const pokemonNameMap = {
   "Mr. Mime": "mr-mime",
