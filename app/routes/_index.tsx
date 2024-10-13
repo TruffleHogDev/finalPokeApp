@@ -65,6 +65,7 @@ const pokemonNameMap = {
   "zamazenta crowned": "zamazenta-crowned",
   "farfetch'd": "farfetchd",
   "sirfetch'd": "sirfetchd",
+  "mega rayquaza": "rayquaza-mega",
 };
 
 // Data fetching area
