@@ -7,6 +7,7 @@ import {
 } from "@remix-run/react";
 import pokeBall from "../images/pokeBall.png";
 import "app/index.css";
+
 // Pokémon name mapping
 const pokemonNameMap = {
   "Mr. Mime": "mr-mime",
@@ -63,6 +64,7 @@ const pokemonNameMap = {
   "zamazenta C": "zamazenta-crowned",
   "Zamazenta c": "zamazenta-crowned",
   "zamazenta crowned": "zamazenta-crowned",
+  "Zamazenta Crowned": "zamazenta-crowned",
   "farfetch'd": "farfetchd",
   "sirfetch'd": "sirfetchd",
   "mega rayquaza": "rayquaza-mega",
@@ -154,6 +156,13 @@ export default function PokemonInfoPage() {
     }
   }, [pokemon]);
 
+  const capitalize = (name) => {
+    return name
+      .split(" ") // Split by spaces
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize first letter and make the rest lowercase
+      .join(" "); // Join the words back together
+  };
+
   const normalizeName = (name) => {
     return name.trim().toLowerCase().replace(/\s+/g, "-");
   };
@@ -214,18 +223,18 @@ export default function PokemonInfoPage() {
 
       {pokemon.length > 0 ? (
         <div className="flex justify-center mt-4">
-          <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-2 border-gray-400">
+          <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-double rounded border-2 border-slate-500 ml-4">
             <img
-              className="max-h-full max-w-full object-contain"
+              className="h-[250px] max-w-full object-contain"
               src={spriteUrl}
               alt="This is where the sprite renders!"
             />
-            <h2 className="text-lg mt-2">{pokemon[0].name}</h2>
+            <h2 className="text-lg mt-2">{capitalize(pokemon[0].name)}</h2>
             <p className="text-md">
               {types ? `Types: ${types}` : "No types available"}
             </p>
           </div>
-          <div className="w-[400px] h-[400px] flex flex-col items-start justify-center border-2 border-gray-400 ml-4">
+          <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-double rounded border-2 border-slate-500 ml-4">
             {stats.length > 0 ? (
               stats.map((stat) => (
                 <div key={stat.name} className="stat-bar mb-2">
