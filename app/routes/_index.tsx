@@ -156,11 +156,12 @@ export default function PokemonInfoPage() {
     }
   }, [pokemon]);
 
+  // Capitalize the first letter of each word and replace hyphens with spaces
   const capitalize = (name) => {
     return name
-      .split(" ") // Split by spaces
+      .split("-") // Split by hyphens instead of spaces
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize first letter and make the rest lowercase
-      .join(" "); // Join the words back together
+      .join(" "); // Join the words with spaces
   };
 
   const normalizeName = (name) => {
