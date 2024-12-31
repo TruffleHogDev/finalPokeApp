@@ -1,6 +1,6 @@
 .stat-bar-container {
   max-width: 400px; /* Set a max width for better alignment */
-  margin: 0 auto; /* Center the container *
+  margin: 0 auto;
 }
 
 .stat-bar {
@@ -10,15 +10,15 @@
 }
 
 .stat-bar-label {
-  margin-bottom: 0.25rem; /* Space between label and value bar */
-  font-weight: bold; /* Make the label bold */
-  text-align: center; /* Center text for aesthetics */
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .stat-bar-value-container {
   width: 300px; /* Set a fixed width for the container */
   background-color: #e0e0e0; /* Light gray background for the bar container */
-  border-radius: 5px; /* Optional: round corners for aesthetics */
+  border-radius: 5px;
   overflow: hidden; /* Ensure the value bar doesn't overflow */
 }
 
@@ -26,4 +26,8 @@
   height: 20px; /* Fixed height for bars */
   border-radius: 5px; /* Rounded corners for the value bar */
   transition: width 0.3s; /* Smooth transition for the bars */
+  text-align: center; /* Center the number inside the bar */
+  display: flex;
+  align-items: center; /* Vertically center the number inside the bar */
+  padding-left: 5px;
 }
