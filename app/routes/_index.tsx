@@ -8,9 +8,99 @@ import {
 import pokeBall from "../images/pokeBall.png";
 import "app/index.css";
 
-// Pokémon name mapping (no changes here)
 const pokemonNameMap = {
-  // ... (same as before)
+  "Mr. Mime": "mr-mime",
+  "mr. mime": "mr-mime",
+  "mr mime": "mr-mime",
+  "Mr. Rime": "mr-rime",
+  "mr rime": "mr-rime",
+  "mr. rime": "mr-rime",
+  "Scream Tail": "scream-tail",
+  "Flutter Mane": "flutter-mane",
+  "Iron Moth": "iron-moth",
+  "Iron Jugulis": "iron-jugulis",
+  "Iron Bundle": "iron-bundle",
+  "Great Tusk": "great-tusk",
+  "Brute Bonnet": "brute-bonnet",
+  "Slither Wing": "slither-wing",
+  "Sandy Shocks": "sandy-shocks",
+  "Roaring Moon": "roaring-moon",
+  "Walking Wake": "walking-wake",
+  "Gouging Fire": "gouging-fire",
+  "Raging Bolt": "raging-bolt",
+  "Iron Treads": "iron-treads",
+  "Iron Hands": "iron-hands",
+  "Iron Thorns": "iron-thorns",
+  "Iron Valiant": "iron-valiant",
+  "Iron Leaves": "iron-leaves",
+  "Iron Boulder": "iron-boulder",
+  "Iron Crown": "iron-crown",
+  "type null": "type-null",
+  "Type: Null": "type-null",
+  "Type:Null": "type-null",
+  "type:null": "type-null",
+  "type: null": "type-null",
+  "Porygon Z": "porygon-z",
+  "porygon z": "porygon-z",
+  "Porygon 2": "porygon2",
+  "porygon 2": "porygon2",
+  "zacian-c": "zacian-crowned",
+  "Zacian-C": "zacian-crowned",
+  "zacian c": "zacian-crowned",
+  "Zacian C": "zacian-crowned",
+  "Zacian c": "zacian-crowned",
+  "zacian C": "zacian-crowned",
+  "Zacian-crowned": "zacian-crowned",
+  "Zacian-Crowned": "zacian-crowned",
+  "zacian crowned": "zacian-crowned",
+  "Zacian Crowned": "zacian-crowned",
+  "zamazenta-c": "zamazenta-crowned",
+  "Zamazenta-C": "zamazenta-crowned",
+  "zamazenta-C": "zamazenta-crowned",
+  "Zamazenta-c": "zamazenta-crowned",
+  "zamazenta c": "zamazenta-crowned",
+  "Zamazenta C": "zamazenta-crowned",
+  "zamazenta C": "zamazenta-crowned",
+  "Zamazenta c": "zamazenta-crowned",
+  "zamazenta crowned": "zamazenta-crowned",
+  "Zamazenta Crowned": "zamazenta-crowned",
+  "farfetch'd": "farfetchd",
+  "sirfetch'd": "sirfetchd",
+  fug: "rayquaza",
+  "mega rayquaza": "rayquaza-mega",
+  "Mega Rayquaza": "rayquaza-mega",
+  "mega glalie": "glalie-mega",
+  "Mega Glalie": "glalie-mega",
+  "mega garchomp": "garchomp-mega",
+  "Mega Garchomp": "garchomp-mega",
+  "mega venusaur": "venusaur-mega",
+  "Mega Venusaur": "venusaur-mega",
+  "charizard y": "charizard-mega-y",
+  "Charizard Y": "charizard-mega-y",
+  "mega charizard y": "charizard-mega-y",
+  "Mega Charizard y": "charizard-mega-y",
+  "megazard y": "charizard-mega-y",
+  "Megazard Y": "charizard-mega-y",
+  "charizard x": "charizard-mega-x",
+  "Charizard X": "charizard-mega-x",
+  "mega charizard X": "charizard-mega-x",
+  "Mega Charizard X": "charizard-mega-x",
+  "megazard x": "charizard-mega-x",
+  "Megazard X": "charizard-mega-x",
+  "mega blastoise": "blastoise-mega",
+  "Mega Blastoise": "blastoise-mega",
+  "mega alakazam": "alakazam-mega",
+  "Mega Alakazam": "alakazam-mega",
+  "mega gengar": "gengar-mega",
+  "Mega Gengar": "gengar-mega",
+  "mega kangaskhan": "kangaskhan-mega",
+  "Mega Kangaskhan": "kangaskhan-mega",
+  "mega pinsir": "pinsir-mega",
+  "Mega Pinsir": "pinsir-mega",
+  "mega scizor": "scizor-mega",
+  "Mega Scizor": "scizor-mega",
+  "mega gyarados": "gyarados-mega",
+  "Mega Gyarados": "gyarados-mega",
 };
 
 // Data fetching area (no changes here)
@@ -161,7 +251,7 @@ export default function PokemonInfoPage() {
       </Form>
 
       <div className="flex justify-center mt-4">
-        <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
+        <div className="w-[400px] h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
           <img
             className="h-[250px] max-w-full object-contain"
             src={spriteUrl} // Always use spriteUrl (which is set to pokeBall by default)
@@ -174,7 +264,7 @@ export default function PokemonInfoPage() {
             {types ? `Types: ${types}` : "No types available"}
           </p>
         </div>
-        <div className="w-[400px] h-[400px] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
+        <div className="w-[400px] h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
           {stats.length > 0 ? (
             stats.map((stat) => (
               <div key={stat.name} className="stat-bar mb-2">

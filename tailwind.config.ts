@@ -6,7 +6,6 @@ export default {
     extend: {
       colors: {
         "off-white": "#fffffe",
-        "cool-blue": "#d8eefe",
         cardstock: "#f9f4ef",
         highlight: "#8c7851",
         secondary: "#eaddcf",
