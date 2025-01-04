@@ -512,15 +512,15 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   let pokemon = [];
 
   try {
-    let url = new URL(request.url);
-    let searchParams = url.searchParams;
+    const url = new URL(request.url);
+    const searchParams = url.searchParams;
     pokemonQuery = searchParams.get("pokemon")?.trim() ?? "";
 
     if (!pokemonQuery) {
       return { pokemon: [] };
     }
 
-    const normalizeName = (name) => {
+    const normalizeName = (name: string) => {
       return name.trim().toLowerCase().replace(/\s+/g, "-");
     };
 
@@ -532,7 +532,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
 
     console.log("Mapped API name:", apiFriendlyName);
 
-    let result1 = await fetch(
+    const result1 = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${apiFriendlyName}`
     );
 
@@ -541,7 +541,7 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
       return { pokemon: [] };
     }
 
-    let result1Json = await result1.json();
+    const result1Json = await result1.json();
     console.log("Fetched Pokémon data:", result1Json);
 
     const types = result1Json.types
