@@ -12,7 +12,7 @@ export default defineConfig({
         v3_relativeSplatPath: true,
         v3_throwAbortReason: true,
       },
-      serverBuildFile: "build/server/build/server/index.js",
+      serverBuildFile: "build",
     }),
     tsconfigPaths(),
   ],
