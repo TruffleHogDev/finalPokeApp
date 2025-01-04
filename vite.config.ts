@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     outDir: "build",
     rollupOptions: {
-      input: "app/routes/_index.tsx",
+      input: "app/root.tsx",
     },
   },
 });
