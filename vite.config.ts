@@ -16,4 +16,10 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    outDir: "build",
+    rollupOptions: {
+      input: "app/routes/_index.tsx",
+    },
+  },
 });
