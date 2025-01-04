@@ -641,7 +641,7 @@ export default function PokemonInfoPage() {
   return (
     <div className="bg-secondary p-4 h-screen flex flex-col items-center justify-center">
       <h1 className="text-center text-xl mb-4">Enter the name of a Pokémon!</h1>
-      <h3>Supports regional forms, megas, dynamaxes, and more!</h3>
+      <h3>Supports regional forms, megas, and more!</h3>
       <Form className="text-lg grid mx-[30%]" method="get">
         <input
           className="rounded border-2 border-double border-black m-1 indent-1"
