@@ -576,16 +576,21 @@ export default function PokemonInfoPage() {
   const { pokemon } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
   const [spriteUrl, setSpriteUrl] = useState<string>(pokeBall); // Initialize with pokeBall
-  const [types, setTypes] = useState<string>("");
+  const [types, setTypes] = useState<string>("Unknown");
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
   const [searchValue, setSearchValue] = useState(""); // State for the search field
 
   useEffect(() => {
     if (pokemon.length > 0) {
-      // Always update spriteUrl when Pokémon data is available
-      setSpriteUrl(pokemon[0].sprite || pokeBall); // Will use pokeBall as fallback if no sprite
-      setTypes(pokemon[0].types);
-      setStats(pokemon[0].stats);
+      // If valid data is available, update with Pokémon data
+      setSpriteUrl(pokemon[0].sprite || pokeBall); // Use fallback if no sprite
+      setTypes(pokemon[0].types || "Unknown");
+      setStats(pokemon[0].stats || []);
+    } else {
+      // Use fallback values if no valid Pokémon data
+      setSpriteUrl(pokeBall);
+      setTypes("Unknown");
+      setStats([]);
     }
   }, [pokemon]);
 
