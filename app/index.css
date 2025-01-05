@@ -1,6 +1,5 @@
 .stat-bar-container {
   width: 400px; /* Set a max width for better alignment */
-  max-width: 50px;
   margin: 0 auto;
 }
 
