@@ -655,7 +655,7 @@ export default function PokemonInfoPage() {
       </Form>
 
       <div className="flex justify-center mt-4">
-        <div className="w-[400px] h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
+        <div className="md:w-[400px] md:h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
           <img
             className="h-[250px] max-w-full object-contain"
             src={spriteUrl} // Always use spriteUrl (which is set to pokeBall by default)
@@ -668,7 +668,7 @@ export default function PokemonInfoPage() {
             {types ? `Types: ${types}` : "No types available"}
           </p>
         </div>
-        <div className="w-[400px] h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
+        <div className="md:w-[400px] md:h-[400px] max-w-[40%] flex flex-col items-center justify-center border-double rounded border-2 bg-cardstock border-black ml-4">
           {stats.length > 0 ? (
             stats.map((stat) => (
               <div key={stat.name} className="stat-bar mb-2">

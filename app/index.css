@@ -1,5 +1,6 @@
 .stat-bar-container {
-  max-width: 400px; /* Set a max width for better alignment */
+  width: 400px; /* Set a max width for better alignment */
+  max-width: 50px;
   margin: 0 auto;
 }
 
@@ -17,6 +18,7 @@
 
 .stat-bar-value-container {
   width: 300px; /* Set a fixed width for the container */
+  max-width: 40%;
   background-color: #e0e0e0; /* Light gray background for the bar container */
   border-radius: 5px;
   overflow: hidden; /* Ensure the value bar doesn't overflow */
