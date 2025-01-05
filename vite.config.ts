@@ -7,6 +7,7 @@ export default defineConfig({
     remix({
       basename: "/",
       buildDirectory: "build",
+      ssr: false,
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
