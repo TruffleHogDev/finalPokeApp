@@ -680,7 +680,7 @@ export default function PokemonInfoPage() {
                 <span className="stat-bar-label block text-left mb-1">
                   {stat.name}
                 </span>
-                <div className="stat-bar-value-container">
+                <div className="stat-bar-value-container max-w-[40%] md:max-w-full">
                   <div
                     className={`stat-bar-value ${getBarColor(stat.name)}`}
                     style={{
