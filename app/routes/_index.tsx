@@ -666,10 +666,10 @@ export default function PokemonInfoPage() {
             src={spriteUrl} // Always use spriteUrl (which is set to pokeBall by default)
             alt="This is where the sprite renders!"
           />
-          <h2 className="text-sm md:text-lg mt-2">
+          <h2 className="text-sm display:block md:text-lg mt-2">
             {capitalize(pokemon[0]?.name || "Unknown Pokémon")}
           </h2>
-          <p className="text-md">
+          <p className="text-sm md:text-base">
             {types ? `Types: ${types}` : "No types available"}
           </p>
         </div>
