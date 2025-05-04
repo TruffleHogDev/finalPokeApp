@@ -2,7 +2,7 @@ This is a simple, presently single-page Remix app that takes a Pokemon name and 
 
 TODO: 
 
-1: Put different components in their own pages- this was not done initially as I could not get the loaders to work correctly. This is now prioritized as _index.tsx is almost 800 lines and will likely eclipse 2,000 before it's finished at this rate.
+1: Modularize components instead of putting it all in _index.tsx ✅
 
 2: Update UI to look cleaner overall. ✅
 
