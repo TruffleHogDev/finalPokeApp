@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   ClientLoaderFunctionArgs,
-  Form,
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
@@ -11,6 +10,8 @@ import { pokemonNameMap } from "../data/PokemonNameMap";
 import { PokemonCard } from "../components/PokemonCard";
 import { PokemonStatsCard } from "../components/PokemonStatsCard";
 import { SearchForm } from "../components/SearchForm";
+import { genOnePokemon } from "../data/GenOnePokemon";
+import { getPredictiveMatches } from "../utils/PredictiveSearch";
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   let pokemonQuery = "";
@@ -25,9 +26,8 @@ export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
       return { pokemon: [] };
     }
 
-    const normalizeName = (name: string) => {
-      return name.trim().toLowerCase().replace(/\s+/g, "-");
-    };
+    const normalizeName = (name: string) =>
+      name.trim().toLowerCase().replace(/\s+/g, "-").replace(/['’]/g, ""); // Remove apostrophes
 
     const normalizedInput = normalizeName(pokemonQuery);
     const apiFriendlyName =
@@ -82,6 +82,8 @@ export default function PokemonInfoPage() {
   const [typeArray, setTypeArray] = useState<string[]>([]);
   const [stats, setStats] = useState<{ name: string; value: number }[]>([]);
   const [searchValue, setSearchValue] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   useEffect(() => {
     if (pokemon.length > 0) {
@@ -95,26 +97,52 @@ export default function PokemonInfoPage() {
     }
   }, [pokemon]);
 
-  const normalizeName = (name: string) => {
-    return name.trim().toLowerCase().replace(/\s+/g, "-");
-  };
+  const normalizeName = (name: string) =>
+    name.trim().toLowerCase().replace(/\s+/g, "-").replace(/['’]/g, ""); // Remove apostrophes
 
   const getApiFriendlyName = (input: string) => {
-    const normalizedInput = normalizeName(input);
-    return (
-      pokemonNameMap[input] ||
-      pokemonNameMap[normalizedInput] ||
-      normalizedInput
-    );
+    const normalized = normalizeName(input);
+    return pokemonNameMap[input] || pokemonNameMap[normalized] || normalized;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
-      const apiFriendlyName = getApiFriendlyName(searchValue);
-      navigate(`/?pokemon=${encodeURIComponent(apiFriendlyName)}`);
-      setSearchValue("");
+      setSelectedIndex((prev) =>
+        prev < suggestions.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+        const selectedName = suggestions[selectedIndex];
+        handleSuggestionSelect(selectedName);
+      } else {
+        const typedName = searchValue;
+        const apiName = getApiFriendlyName(typedName);
+        navigate(`/?pokemon=${encodeURIComponent(apiName)}`);
+        setSearchValue("");
+        setSuggestions([]);
+        setSelectedIndex(-1);
+      }
     }
+  };
+
+  const handleInputChange = (value: string) => {
+    setSearchValue(value);
+    const matches = getPredictiveMatches(value);
+    setSuggestions(matches);
+    setSelectedIndex(-1);
+  };
+
+  const handleSuggestionSelect = (selectedName: string) => {
+    const apiName = getApiFriendlyName(selectedName);
+    navigate(`/?pokemon=${encodeURIComponent(apiName)}`);
+    setSearchValue("");
+    setSuggestions([]);
+    setSelectedIndex(-1);
   };
 
   return (
@@ -128,8 +156,11 @@ export default function PokemonInfoPage() {
 
       <SearchForm
         searchValue={searchValue}
-        setSearchValue={setSearchValue}
+        setSearchValue={handleInputChange}
         handleKeyDown={handleKeyDown}
+        handleSelect={handleSuggestionSelect}
+        suggestions={suggestions}
+        selectedIndex={selectedIndex}
       />
 
       <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-6 w-full max-w-5xl">
