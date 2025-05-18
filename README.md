@@ -6,7 +6,7 @@ TODO:
 
 2: Update UI to look cleaner overall. ✅
 
-3: Add predictive search function.
+3: Add predictive search function. ✅ - basic gen 1 functionality implemented, rest TBD
 
 4: Allow filtering by generation and typing.
 
