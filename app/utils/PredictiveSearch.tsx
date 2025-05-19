@@ -2,18 +2,25 @@
 
 import { genOnePokemon } from "../data/GenOnePokemon";
 import { genTwoPokemon } from "../data/GenTwoPokemon";
-import { genThreePokemon } from "~/data/GenThreePokemon";
+import { genThreePokemon } from "../data/GenThreePokemon";
+import { genFourPokemon } from "~/data/GenFourPokemon";
 // Future additions:
 // import { regionalForms } from "../data/RegionalForms";
 // import { megaEvolutions } from "../data/MegaEvolutions";
 
-type SearchCategory = "gen1" | "gen2" | "all"; // Extend this list as needed
+type SearchCategory = "gen1" | "gen2" | "gen3" | "gen4" | "all"; // Extend this list as needed
 
 const categoryMap: Record<SearchCategory, string[]> = {
   gen1: genOnePokemon,
   gen2: genTwoPokemon,
   gen3: genThreePokemon,
-  all: [...genOnePokemon, ...genTwoPokemon, ...genThreePokemon], // Add more sources here as needed
+  gen4: genFourPokemon,
+  all: [
+    ...genOnePokemon,
+    ...genTwoPokemon,
+    ...genThreePokemon,
+    ...genFourPokemon,
+  ], // Add more sources here as needed
 };
 
 /**
