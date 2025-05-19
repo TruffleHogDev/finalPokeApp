@@ -2,6 +2,7 @@
 
 import { genOnePokemon } from "../data/GenOnePokemon";
 import { genTwoPokemon } from "../data/GenTwoPokemon";
+import { genThreePokemon } from "~/data/GenThreePokemon";
 // Future additions:
 // import { regionalForms } from "../data/RegionalForms";
 // import { megaEvolutions } from "../data/MegaEvolutions";
@@ -11,7 +12,8 @@ type SearchCategory = "gen1" | "gen2" | "all"; // Extend this list as needed
 const categoryMap: Record<SearchCategory, string[]> = {
   gen1: genOnePokemon,
   gen2: genTwoPokemon,
-  all: [...genOnePokemon, ...genTwoPokemon], // Add more sources here as needed
+  gen3: genThreePokemon,
+  all: [...genOnePokemon, ...genTwoPokemon, ...genThreePokemon], // Add more sources here as needed
 };
 
 /**
