@@ -10,7 +10,6 @@ import { pokemonNameMap } from "../data/PokemonNameMap";
 import { PokemonCard } from "../components/PokemonCard";
 import { PokemonStatsCard } from "../components/PokemonStatsCard";
 import { SearchForm } from "../components/SearchForm";
-import { genOnePokemon } from "../data/GenOnePokemon";
 import { getPredictiveMatches } from "../utils/PredictiveSearch";
 
 export async function clientLoader({ request }: ClientLoaderFunctionArgs) {

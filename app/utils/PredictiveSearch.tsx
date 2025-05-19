@@ -1,11 +1,35 @@
+// predictiveSearch.ts
+
 import { genOnePokemon } from "../data/GenOnePokemon";
+import { genTwoPokemon } from "../data/GenTwoPokemon";
+// Future additions:
+// import { regionalForms } from "../data/RegionalForms";
+// import { megaEvolutions } from "../data/MegaEvolutions";
 
-export function getPredictiveMatches(input: string): string[] {
+type SearchCategory = "gen1" | "gen2" | "all"; // Extend this list as needed
+
+const categoryMap: Record<SearchCategory, string[]> = {
+  gen1: genOnePokemon,
+  gen2: genTwoPokemon,
+  all: [...genOnePokemon, ...genTwoPokemon], // Add more sources here as needed
+};
+
+/**
+ * Returns up to 5 matching Pokémon names from the selected category.
+ *
+ * @param input The user's search input
+ * @param category The pool to search from ("gen1", "gen2", or "all"). Defaults to "all".
+ */
+export function getPredictiveMatches(
+  input: string,
+  category: SearchCategory = "all"
+): string[] {
   if (!input.trim()) return [];
-  const query = input.toLowerCase().trim();
 
-  // Use fuzzy matching to find more relevant matches (using `startsWith` here for simplicity)
-  return genOnePokemon
-    .filter((name) => name.toLowerCase().startsWith(query)) // case-insensitive matching
-    .slice(0, 5); // limit to 5 suggestions
+  const query = input.toLowerCase().trim();
+  const pool = categoryMap[category] ?? [];
+
+  return pool
+    .filter((name) => name.toLowerCase().startsWith(query))
+    .slice(0, 5);
 }
