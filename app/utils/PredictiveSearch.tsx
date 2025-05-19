@@ -1,11 +1,8 @@
-// predictiveSearch.ts
-
 import { genOnePokemon } from "../data/GenOnePokemon";
 import { genTwoPokemon } from "../data/GenTwoPokemon";
 import { genThreePokemon } from "../data/GenThreePokemon";
 import { genFourPokemon } from "~/data/GenFourPokemon";
 import { genFivePokemon } from "~/data/GenFivePokemon";
-// Future additions:
 // import { regionalForms } from "../data/RegionalForms";
 // import { megaEvolutions } from "../data/MegaEvolutions";
 
