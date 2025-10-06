@@ -3,9 +3,10 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  base: "/finalPokeApp/",
   plugins: [
     remix({
-      basename: "/",
+      basename: "/finalPokeApp/",
       buildDirectory: "build",
       ssr: false,
       future: {
